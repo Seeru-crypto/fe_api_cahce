@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";
-import {clearRequests, retrieveRequests} from "./requestCache.ts";
+import {clearRequests, IRequestCachePayload, retrieveRequests} from "./requestCache.ts";
 import api from "./apiCache.ts";
 
 const useNetworkCaching = () => {
@@ -13,16 +13,17 @@ const useNetworkCaching = () => {
     }, [isOnline]);
 }
 
-async function retryRequests() {
-    const storedRequests = retrieveRequests();
+function retryRequests() {
+    const storedRequests:IRequestCachePayload[] = retrieveRequests();
     storedRequests.forEach(async (request) => {
         console.log({request})
         try {
             if (request != null) {
-                await api(request);
+                api(request)
+
                 // Remove successful request from storage
-                // const remainingRequests = storedRequests.filter(req => req !== request);
-                // localStorage.setItem('offlineRequests', JSON.stringify(remainingRequests));
+                const remainingRequests = storedRequests.filter(req => req !== request);
+                localStorage.setItem('offlineRequests', JSON.stringify(remainingRequests));
             }
             else {
                 console.log('request is null')

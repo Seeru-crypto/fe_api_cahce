@@ -1,6 +1,22 @@
-export const storeRequest = (request) => {
+import {InternalAxiosRequestConfig} from "axios/index";
+
+export interface IRequestCachePayload {
+    method: any,
+    url: any,
+    data: any,
+}
+
+export const storeRequest = (request: InternalAxiosRequestConfig) => {
+    //requestQueue.push({ method, url, data, config });
+
+    const payload:IRequestCachePayload = {
+        method: request.method,
+        url: request.url,
+        data: request.data
+    }
+
     const storedRequests = JSON.parse(localStorage.getItem('offlineRequests')) || [];
-    storedRequests.push(request);
+    storedRequests.push(payload);
     localStorage.setItem('offlineRequests', JSON.stringify(storedRequests));
 };
 
