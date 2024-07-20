@@ -10,7 +10,6 @@ api.interceptors.request.use(async (config) => {
         // Handle offline logic
         storeRequest(config);
         return Promise.reject({ message: 'Request stored offline' });
-
     }
     return config;
 }, error => Promise.reject(error));

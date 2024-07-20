@@ -4,17 +4,16 @@ export function getRandomPlate() {
     const res = {
         string: letters,
         numbers: numbers}
-    console.log(res)
     return res
 }
 
 function getString() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
     for (let i = 0; i < 3; i++) {
         result += letters.charAt(Math.floor(Math.random() * letters.length));
     }
-    return result.toUpperCase();
+    return result;
 }
 
 function generateRandomNumberString() {

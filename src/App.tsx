@@ -5,51 +5,43 @@ import './App.css'
 import api from "./apiCache.ts";
 import {IPlate} from "./models/IPlate.ts";
 import {getRandomPlate} from "./utils/getRandomPlate.ts";
+import useGetNetworkStatus from "./useGetNetworkStatus.ts";
+import useNetworkCaching from "./useNetworkCaching.ts";
 
 function App() {
-    const [isInternetOn, setIsInternetOn] = useState(false)
     const [plates, setPlates] = useState<IPlate[]>([])
+    const isOnline = useGetNetworkStatus();
+    useNetworkCaching();
 
     useEffect(() => {
-        setInterval(internetConnectionHealthCheck, 3000)
-        GetData()
+        getPlates()
     }, []);
 
-    useEffect(() => {
-        console.log({plates})
-    }, [plates]);
-
     function getInternetString() {
-        if (isInternetOn) return "on"
+        if (isOnline) return "on"
         return "off"
     }
 
-    function internetConnectionHealthCheck() {
-        // console.log("check");
-        setIsInternetOn(navigator.onLine)
-    }
-
-    async function GetData() {
+    async function getPlates() {
         const res = await api.get("/plates")
         setPlates(res.data)
     }
 
-    async function saveRandomPlate() {
+    async function savePlate() {
         const payload = getRandomPlate()
-        await api.post("/plates", payload).then(r => console.log(r.data))
-        GetData()
+        await api.post("/plates", payload)
+        getPlates()
     }
 
-    async function deleteLatestPlate() {
-        console.log(plates.length)
+    async function deletePlate() {
         if (plates.length == 0) {
-            await GetData()
+            await getPlates()
         }
 
         if (plates.length > 0) {
             const latestId = plates.pop().id
             await api.delete(`/plates/${latestId}`)
-            GetData()
+            getPlates()
         }
     }
 
@@ -66,24 +58,20 @@ function App() {
             <h1>Vite + React</h1>
             <h2>Internet is {getInternetString()}</h2>
             <div className="card">
-                <br/>
-
-                <button onClick={() => setIsInternetOn(!isInternetOn)}>
-                    switch internet
-                </button>
             </div>
 
             <div className="card">
-                <button onClick={() => GetData()}>
+                <button onClick={() => getPlates()}>
                     GET
                 </button>
-                <button onClick={() => saveRandomPlate()}>
+                <button onClick={() => savePlate()}>
                     POST
                 </button>
-                <button onClick={() => deleteLatestPlate()}>
+                <button onClick={() => deletePlate()}>
                     DELETE
                 </button>
             </div>
+            <a href="https://google.com" target="_blank">googl</a>
 
             <div className="plate-container">
                 {plates.map(plate => {
