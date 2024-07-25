@@ -25,6 +25,5 @@ export const retrieveRequests = () => {
 };
 
 export const clearRequests = () => {
-    console.log('clearing all requests')
     localStorage.removeItem('offlineRequests');
 };

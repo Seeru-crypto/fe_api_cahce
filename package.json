@@ -11,6 +11,7 @@
     "api": "npx json-server db.json --port 4000"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "axios": "^1.7.2",
     "json-server": "^1.0.0-beta.1",
     "react": "^18.3.1",

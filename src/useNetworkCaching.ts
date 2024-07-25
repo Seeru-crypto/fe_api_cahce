@@ -16,12 +16,9 @@ const useNetworkCaching = () => {
 function retryRequests() {
     const storedRequests:IRequestCachePayload[] = retrieveRequests();
     storedRequests.forEach(async (request) => {
-        console.log({request})
         try {
             if (request != null) {
                 api(request)
-
-                // Remove successful request from storage
                 const remainingRequests = storedRequests.filter(req => req !== request);
                 localStorage.setItem('offlineRequests', JSON.stringify(remainingRequests));
             }

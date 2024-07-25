@@ -7,9 +7,11 @@ import {IPlate} from "./models/IPlate.ts";
 import {getRandomPlate} from "./utils/getRandomPlate.ts";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";
 import useNetworkCaching from "./useNetworkCaching.ts";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
 function App() {
     const [plates, setPlates] = useState<IPlate[]>([])
+    const [parent] = useAutoAnimate(/* optional config */)
     const isOnline = useGetNetworkStatus();
     useNetworkCaching();
 
@@ -30,7 +32,7 @@ function App() {
     async function savePlate() {
         const payload = getRandomPlate()
         await api.post("/plates", payload)
-        getPlates()
+        // getPlates()
     }
 
     async function deletePlate() {
@@ -39,14 +41,16 @@ function App() {
         }
 
         if (plates.length > 0) {
-            const latestId = plates.pop().id
-            await api.delete(`/plates/${latestId}`)
+            const latestId = plates.pop()!.id
+            await api.delete(`/plates/${latestId}`).finally(() => {
+                alert("deleting")
+            })
             getPlates()
         }
     }
 
     return (
-        <>
+        <div>
             <div>
                 <a target="_blank">
                     <img src={viteLogo} className="logo" alt="Vite logo"/>
@@ -57,8 +61,6 @@ function App() {
             </div>
             <h1>Vite + React</h1>
             <h2>Internet is {getInternetString()}</h2>
-            <div className="card">
-            </div>
 
             <div className="card">
                 <button onClick={() => getPlates()}>
@@ -71,20 +73,18 @@ function App() {
                     DELETE
                 </button>
             </div>
-            <a href="https://google.com" target="_blank">googl</a>
-
-            <div className="plate-container">
+            <ul ref={parent} className="plate-container">
                 {plates.map(plate => {
                         return (
-                            <div key={plate.id} className="plate">
+                            <li key={plate.id} className="plate">
                                 <h2>{plate.string}-{plate.numbers}</h2>
-                            </div>
+                            </li>
                         )
                     }
                 )
                 }
-            </div>
-        </>
+            </ul>
+        </div>
     )
 }
 
