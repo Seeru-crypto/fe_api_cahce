@@ -49,5 +49,11 @@ DELETE /users/:id - This deletes a user based on the specified id.
 
 
 
+1. finish the offline cache´ng
+2. Add API health check + banner
 
+
+## Notes
+- There is a problem with the caching where if, network is re-established then axios will execute all the requests, but if the
+- original method has any addition steps to complete then those will not be executed, since the original request has timed out already. 
 

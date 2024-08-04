@@ -1,0 +1,8 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: lightcoral;
+    justify-content: center;
+    align-items: center;
+}

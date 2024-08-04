@@ -8,16 +8,42 @@ import {getRandomPlate} from "./utils/getRandomPlate.ts";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";
 import useNetworkCaching from "./useNetworkCaching.ts";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
+import WarningBar from "./components/warning_bar/WarningBar.tsx";
 
 function App() {
     const [plates, setPlates] = useState<IPlate[]>([])
     const [parent] = useAutoAnimate(/* optional config */)
+    const [errorMessage, setErrorMessage] = useState<string[]>([])
     const isOnline = useGetNetworkStatus();
+    const mySet1 = new Set();
+
     useNetworkCaching();
 
     useEffect(() => {
         getPlates()
     }, []);
+
+    useEffect(() => {
+        console.log({errorMessage})
+    }, [errorMessage]);
+
+    useEffect(() => {
+        const message = "network is down"
+
+        if (!isOnline) {
+            // add error message
+            const currentMessages = errorMessage;
+            currentMessages.push(message)
+            setErrorMessage(currentMessages)
+        }
+        else {
+            // remove error message
+            const currentMessages = errorMessage;
+            currentMessages.filter(error => error !== message)
+            setErrorMessage(currentMessages)
+        }
+
+    }, [isOnline])
 
     function getInternetString() {
         if (isOnline) return "on"
@@ -51,6 +77,7 @@ function App() {
 
     return (
         <div>
+            <WarningBar message={errorMessage} />
             <div>
                 <a target="_blank">
                     <img src={viteLogo} className="logo" alt="Vite logo"/>
