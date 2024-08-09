@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";
-import {clearRequests, IRequestCachePayload, retrieveRequests} from "./requestCache.ts";
-import api from "./apiCache.ts";
+import {clearRequests, IRequestCachePayload, retrieveRequests} from "./middleware/requestCache.ts";
+import api from "./middleware/axiosConfig.ts";
 
 const useNetworkCaching = () => {
     const isOnline = useGetNetworkStatus();
@@ -14,7 +14,7 @@ const useNetworkCaching = () => {
 }
 
 function retryRequests() {
-    const storedRequests:IRequestCachePayload[] = retrieveRequests();
+    const storedRequests:IRequestCachePayload<never>[] = retrieveRequests();
     storedRequests.forEach(async (request) => {
         try {
             if (request != null) {

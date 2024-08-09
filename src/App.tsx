@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import api from "./apiCache.ts";
+import api from "./middleware/axiosConfig.ts";
 import {IPlate} from "./models/IPlate.ts";
 import {getRandomPlate} from "./utils/getRandomPlate.ts";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";

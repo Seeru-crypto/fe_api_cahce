@@ -11,8 +11,6 @@ const api = axios.create({
 
 // REQUEST
 const onRequestSuccess = (config: InternalAxiosRequestConfig) => {
-    console.log("onRequestSuccess")
-
     //implement caching
     if (!navigator.onLine) {
         // Handle offline logic
@@ -36,12 +34,10 @@ api.interceptors.request.use(onRequestSuccess, onRequestError);
 // RESPONSE
 
 function onResponseSuccess(response: AxiosResponse<any, any>) {
-    console.log("response success")
     return response
 }
 
 function onResponseError(error: AxiosError) {
-    console.log("response error")
     if (!navigator.onLine) {
         storeRequest(error.config);
     }

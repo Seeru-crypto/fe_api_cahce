@@ -1,12 +1,12 @@
 import {InternalAxiosRequestConfig} from "axios";
 
-type possbileUrls = '/plates' | '/health'
+type TPossibleUrls = '/plates' | '/health'
 
 export function execute(config: InternalAxiosRequestConfig) {
 
-    const url = config.url as possbileUrls;
+    const URL = config.url as TPossibleUrls;
 
-    switch (url) {
+    switch (URL) {
         case "/health": {
             console.log("health");
             break
@@ -15,13 +15,13 @@ export function execute(config: InternalAxiosRequestConfig) {
             casePlates(config)
             break
         }
-        default: console.error("undefinerd url", config.url)
+        default: console.error("undefined url", URL)
     }
 }
 
-
 function casePlates(config: InternalAxiosRequestConfig) {
-    switch (config.method) {
+    const method = config.method;
+    switch (method) {
         case "post": {
             console.log("POST PLATES")
             break
@@ -36,7 +36,6 @@ function casePlates(config: InternalAxiosRequestConfig) {
             console.log("DELETE PLATES")
             break
         }
-
-        default: console.error("undefined method: ", config.method)
+        default: console.error("undefined method: ", method)
     }
 }
