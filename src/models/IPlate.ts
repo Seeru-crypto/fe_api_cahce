@@ -1,5 +1,5 @@
 export interface IPlate {
+    letters: string,
+    plateNumbers: string,
     id?: number,
-    string: string,
-    numbers: number
 }

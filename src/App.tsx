@@ -6,7 +6,7 @@ import api from "./middleware/axiosConfig.ts";
 import {IPlate} from "./models/IPlate.ts";
 import {getRandomPlate} from "./utils/getRandomPlate.ts";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";
-import useNetworkCaching from "./useNetworkCaching.ts";
+import useLocalCaching from "./useLocalCaching.ts";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import WarningBar from "./components/warning_bar/WarningBar.tsx";
 
@@ -16,7 +16,7 @@ function App() {
     const [errorMessage, setErrorMessage] = useState<string[]>([])
     const isOnline = useGetNetworkStatus();
 
-    useNetworkCaching();
+    useLocalCaching();
 
     useEffect(() => {
         getPlates()
@@ -103,7 +103,7 @@ function App() {
                 {plates.map(plate => {
                         return (
                             <li key={plate.id} className="plate">
-                                <h2>{plate.string}-{plate.numbers}</h2>
+                                <h2>{plate.letters}-{plate.plateNumbers}</h2>
                             </li>
                         )
                     }

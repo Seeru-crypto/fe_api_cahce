@@ -3,7 +3,7 @@ import useGetNetworkStatus from "./useGetNetworkStatus.ts";
 import {clearRequests, IRequestCachePayload, retrieveRequests} from "./middleware/requestCache.ts";
 import api from "./middleware/axiosConfig.ts";
 
-const useNetworkCaching = () => {
+const useLocalCaching = () => {
     const isOnline = useGetNetworkStatus();
 
     useEffect(() => {
@@ -30,7 +30,6 @@ function retryRequests() {
         }
     });
     clearRequests(); // Clear all requests once they have been retried
-
 }
 
-export default useNetworkCaching;
+export default useLocalCaching;

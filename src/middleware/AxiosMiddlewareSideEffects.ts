@@ -1,22 +1,28 @@
 import {InternalAxiosRequestConfig} from "axios";
 
-type TPossibleUrls = '/plates' | '/health'
+type TPossibleUrls = 'plates' | 'health'
 
 export function execute(config: InternalAxiosRequestConfig) {
 
-    const URL = config.url as TPossibleUrls;
+    const URL = formatUrl(config.url) as TPossibleUrls;
 
     switch (URL) {
-        case "/health": {
+        case "health": {
             console.log("health");
             break
         }
-        case "/plates": {
+        case "plates": {
             casePlates(config)
             break
         }
         default: console.error("undefined url", URL)
     }
+}
+
+function formatUrl(original: string | undefined): string {
+    if (original === undefined) return ''
+    const res = original.split('/')
+    return res[1]
 }
 
 function casePlates(config: InternalAxiosRequestConfig) {

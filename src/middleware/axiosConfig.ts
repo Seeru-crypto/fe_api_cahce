@@ -38,9 +38,6 @@ function onResponseSuccess(response: AxiosResponse<any, any>) {
 }
 
 function onResponseError(error: AxiosError) {
-    if (!navigator.onLine) {
-        storeRequest(error.config);
-    }
     return Promise.reject(error);
 }
 

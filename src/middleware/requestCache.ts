@@ -12,6 +12,7 @@ export const storeRequest = (request: InternalAxiosRequestConfig) => {
         url: request.url,
         data: request.data
     }
+    console.log(`stored payload ${payload}`)
 
     const storageString = localStorage.getItem('offlineRequests')
 
