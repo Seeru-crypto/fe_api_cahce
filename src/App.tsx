@@ -15,7 +15,6 @@ function App() {
     const [parent] = useAutoAnimate(/* optional config */)
     const [errorMessage, setErrorMessage] = useState<string[]>([])
     const isOnline = useGetNetworkStatus();
-    const mySet1 = new Set();
 
     useNetworkCaching();
 
