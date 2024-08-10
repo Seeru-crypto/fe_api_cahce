@@ -38,7 +38,6 @@ export const plateSlice = createSlice({
                 state.loading = false;
                 // console.log("data ", action.payload.data)
                 state.plates = action.payload;
-                toastManager.notify('Plate kettet',successOption);
             })
             .addCase(savePlate.fulfilled, (state) => {
                 state.loading = false;
@@ -48,10 +47,11 @@ export const plateSlice = createSlice({
                 state.loading = false;
                 toastManager.notify('Plate deleted', successOption);
             })
-            .addMatcher(isPending(getPlates, deletePlate), (state) => {
+            .addMatcher(isPending(getPlates, deletePlate, savePlate), (state) => {
                 state.loading = true;
             })
-            .addMatcher(isRejected(getPlates, deletePlate), (state) => {
+            .addMatcher(isRejected(getPlates, deletePlate, savePlate), (state) => {
+                console.log("is rejected")
                 state.loading = false
             });
     },

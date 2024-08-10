@@ -3,47 +3,38 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import {getRandomPlate} from "./utils/getRandomPlate.ts";
-import useGetNetworkStatus from "./useGetNetworkStatus.ts";
-import useLocalCaching from "./useLocalCaching.ts";
+import useGetNetworkStatus from "./reactHooks/useGetNetworkStatus.ts";
+import useLocalCaching from "./reactHooks/useLocalCaching.ts";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useAppDispatch, useAppSelector} from "./redux/store.tsx";
-import {toastManager} from "./toastManager.ts";
 import {deletePlate, getPlates, savePlate} from "./redux/slices/plateReducer.ts";
+import {errorOption, toastManager} from "./toastManager.ts";
+import {Id} from "react-toastify/dist/types";
 
 function App() {
     const [parent] = useAutoAnimate(/* optional config */)
-    const [errorMessage, setErrorMessage] = useState<string[]>([])
     const dispatch = useAppDispatch();
     const {plates} = useAppSelector(state => state.plates)
+    const [toastId, setToastId] = useState<Id>()
     const isOnline = useGetNetworkStatus();
 
     useLocalCaching();
 
     useEffect(() => {
-        getPlates()
         dispatch(getPlates())
     }, []);
 
     useEffect(() => {
-        console.log({errorMessage})
-    }, [errorMessage]);
-
-    useEffect(() => {
         const message = "network is down"
-
         if (!isOnline) {
+            setToastId(toastManager.notify(message,errorOption))
             // add error message
-            const currentMessages = errorMessage;
-            currentMessages.push(message)
-            setErrorMessage(currentMessages)
         }
-        else {
+        else if (isOnline && toastId !== undefined) {
+            toastManager.removeToast(toastId)
             // remove error message
-            const currentMessages = errorMessage;
-            currentMessages.filter(error => error !== message)
-            setErrorMessage(currentMessages)
         }
     }, [isOnline])
 

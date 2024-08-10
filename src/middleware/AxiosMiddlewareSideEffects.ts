@@ -1,9 +1,7 @@
 import {InternalAxiosRequestConfig} from "axios";
-
 type TPossibleUrls = 'plates' | 'health'
 
 export function execute(config: InternalAxiosRequestConfig) {
-
     const URL = formatUrl(config.url) as TPossibleUrls;
 
     switch (URL) {

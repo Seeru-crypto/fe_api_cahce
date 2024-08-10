@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";
-import {clearRequests, IRequestCachePayload, retrieveRequests} from "./middleware/requestCache.ts";
-import api from "./middleware/axiosConfig.ts";
+import {clearRequests, IRequestCachePayload, retrieveRequests} from "../middleware/requestCache.ts";
+import api from "../middleware/axiosConfig.ts";
 
 const useLocalCaching = () => {
     const isOnline = useGetNetworkStatus();
