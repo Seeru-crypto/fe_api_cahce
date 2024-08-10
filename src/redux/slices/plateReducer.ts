@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
 import {IPlate} from "../../models/IPlate.ts";
 import api from "../../middleware/axiosConfig.ts";
-import {successOption, toastManager} from "../../toastManager.ts";
+import {successOption, toastManager, warningOption} from "../../toastManager.ts";
 
 interface IPlateReducer {
     loading: boolean;
@@ -15,7 +15,6 @@ const initialState: IPlateReducer = {
 
 export const getPlates = createAsyncThunk('getPlates', async () => {
     return (await api.get<IPlate[]>("/plates")).data
-    //return (await axios.get<ProductDto[]>(PRODUCT_PATH)).data;
 });
 
 export const savePlate = createAsyncThunk('savePlate', async (payload: IPlate, thunkApi) => {
@@ -50,12 +49,35 @@ export const plateSlice = createSlice({
             .addMatcher(isPending(getPlates, deletePlate, savePlate), (state) => {
                 state.loading = true;
             })
-            .addMatcher(isRejected(getPlates, deletePlate, savePlate), (state) => {
-                console.log("is rejected")
+            .addMatcher(isRejected(getPlates, deletePlate, savePlate), (state, action) => {
+                console.log(action.type)
+                storeRequestMessage(action)
                 state.loading = false
             });
     },
 });
 // export const {  toggleFlowEditMode } = plateSlice.actions;
+
+type TRequest = "savePlate" | "deletePlate"| "getPlates"
+
+// Optimized function to store request messages
+function storeRequestMessage(action: any) {
+    const { message } = action.error;
+    if (message === "Request stored offline") {
+        const type = action.type.split('/')[0] as TRequest;
+
+        const notificationMessages: Record<TRequest, string> = {
+            savePlate: "save request stored",
+            deletePlate: "delete request stored",
+            getPlates: "", // No notification for getPlates
+        };
+
+        if (notificationMessages[type]) {
+            toastManager.notify(notificationMessages[type], warningOption);
+        } else {
+            console.error("unknown type: ", type);
+        }
+    }
+}
 
 export default plateSlice.reducer;
