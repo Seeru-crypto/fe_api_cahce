@@ -1,19 +1,22 @@
 import {InternalAxiosRequestConfig} from "axios";
+import {TStore} from "../redux/store.tsx";
+import {getPlates} from "../redux/slices/plateReducer.ts";
+
 type TPossibleUrls = 'plates' | 'health'
 
-export function execute(config: InternalAxiosRequestConfig) {
+export function execute(config: InternalAxiosRequestConfig, store: TStore) {
     const URL = formatUrl(config.url) as TPossibleUrls;
-
     switch (URL) {
         case "health": {
             console.log("health");
             break
         }
         case "plates": {
-            casePlates(config)
+            casePlates(config, store)
             break
         }
-        default: console.error("undefined url", URL)
+        default:
+            console.error("undefined url", URL)
     }
 }
 
@@ -23,11 +26,12 @@ function formatUrl(original: string | undefined): string {
     return res[1]
 }
 
-function casePlates(config: InternalAxiosRequestConfig) {
+function casePlates(config: InternalAxiosRequestConfig, store: TStore) {
     const method = config.method;
     switch (method) {
         case "post": {
             console.log("POST PLATES")
+            fetchPlate(store)
             break
         }
 
@@ -38,8 +42,16 @@ function casePlates(config: InternalAxiosRequestConfig) {
 
         case "delete": {
             console.log("DELETE PLATES")
+            fetchPlate(store)
             break
         }
-        default: console.error("undefined method: ", method)
+        default:
+            console.error("undefined method: ", method)
+    }
+
+    function fetchPlate(store: TStore) {
+        setTimeout(function () {
+            store.dispatch(getPlates())
+        }, 500);
     }
 }

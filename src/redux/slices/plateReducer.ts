@@ -4,12 +4,12 @@ import api from "../../middleware/axiosConfig.ts";
 import {successOption, toastManager, warningOption} from "../../toastManager.ts";
 
 interface IPlateReducer {
-    loading: boolean;
+    isLoading: boolean;
     plates: IPlate[];
 }
 
 const initialState: IPlateReducer = {
-    loading: false,
+    isLoading: false,
     plates: [],
 };
 
@@ -34,35 +34,34 @@ export const plateSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(getPlates.fulfilled, (state, action) => {
-                state.loading = false;
+                state.isLoading = false;
                 // console.log("data ", action.payload.data)
                 state.plates = action.payload;
             })
             .addCase(savePlate.fulfilled, (state) => {
-                state.loading = false;
+                state.isLoading = false;
                 toastManager.notify('Plate created', successOption);
             })
             .addCase(deletePlate.fulfilled, (state) => {
-                state.loading = false;
+                state.isLoading = false;
                 toastManager.notify('Plate deleted', successOption);
             })
             .addMatcher(isPending(getPlates, deletePlate, savePlate), (state) => {
-                state.loading = true;
+                state.isLoading = true;
             })
             .addMatcher(isRejected(getPlates, deletePlate, savePlate), (state, action) => {
-                console.log(action.type)
                 storeRequestMessage(action)
-                state.loading = false
+                state.isLoading = false
             });
     },
 });
 // export const {  toggleFlowEditMode } = plateSlice.actions;
 
-type TRequest = "savePlate" | "deletePlate"| "getPlates"
+type TRequest = "savePlate" | "deletePlate" | "getPlates"
 
 // Optimized function to store request messages
 function storeRequestMessage(action: any) {
-    const { message } = action.error;
+    const {message} = action.error;
     if (message === "Request stored offline") {
         const type = action.type.split('/')[0] as TRequest;
 

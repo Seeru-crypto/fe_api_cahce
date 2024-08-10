@@ -12,6 +12,7 @@ export const store = configureStore({
     reducer: rootReducer,
 });
 
+export type TStore = typeof store;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 export type IRootState = ReturnType<typeof store.getState>;
