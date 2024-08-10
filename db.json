@@ -1,19 +1,40 @@
 {
   "plates": [
     {
-      "id": "1",
-      "string": "AAA",
-      "numbers": 111
+      "id": "d0b2",
+      "letters": "CDQ",
+      "plateNumbers": "291"
     },
     {
-      "id": "c0e8",
-      "string": "IIX",
-      "numbers": "454"
+      "id": "6299",
+      "letters": "TFL",
+      "plateNumbers": "183"
     },
     {
-      "id": "1756",
-      "string": "INA",
-      "numbers": "081"
+      "id": "8e88",
+      "letters": "NLG",
+      "plateNumbers": "654"
+    },
+    {
+      "id": "7f16",
+      "letters": "IAS",
+      "plateNumbers": "038"
+    },
+    {
+      "id": "008d",
+      "letters": "GIK",
+      "plateNumbers": "229"
+    },
+    {
+      "id": "0866",
+      "letters": "ILY",
+      "plateNumbers": "898"
+    },
+    {
+      "id": "c1e1",
+      "letters": "AHC",
+      "plateNumbers": "583",
+      "createdAt": "2024-08-10T11:10:15.837Z"
     }
   ],
   "health": {

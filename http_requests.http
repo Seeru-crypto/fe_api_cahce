@@ -8,3 +8,13 @@ GET http://localhost:4000/plates
 http://localhost:4000/health
 
 <> 2024-08-04T160054.200.json
+
+###
+POST http://localhost:4000/plates
+Content-Type: application/json
+
+{
+  "letters": "BSE",
+  "plateNumbers": "683",
+  "createdAt": "1723285209396"
+}

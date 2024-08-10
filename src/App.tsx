@@ -2,24 +2,28 @@ import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import api from "./middleware/axiosConfig.ts";
-import {IPlate} from "./models/IPlate.ts";
 import {getRandomPlate} from "./utils/getRandomPlate.ts";
 import useGetNetworkStatus from "./useGetNetworkStatus.ts";
 import useLocalCaching from "./useLocalCaching.ts";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
-import WarningBar from "./components/warning_bar/WarningBar.tsx";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useAppDispatch, useAppSelector} from "./redux/store.tsx";
+import {toastManager} from "./toastManager.ts";
+import {deletePlate, getPlates, savePlate} from "./redux/slices/plateReducer.ts";
 
 function App() {
-    const [plates, setPlates] = useState<IPlate[]>([])
     const [parent] = useAutoAnimate(/* optional config */)
     const [errorMessage, setErrorMessage] = useState<string[]>([])
+    const dispatch = useAppDispatch();
+    const {plates} = useAppSelector(state => state.plates)
     const isOnline = useGetNetworkStatus();
 
     useLocalCaching();
 
     useEffect(() => {
         getPlates()
+        dispatch(getPlates())
     }, []);
 
     useEffect(() => {
@@ -41,7 +45,6 @@ function App() {
             currentMessages.filter(error => error !== message)
             setErrorMessage(currentMessages)
         }
-
     }, [isOnline])
 
     function getInternetString() {
@@ -49,34 +52,30 @@ function App() {
         return "off"
     }
 
-    async function getPlates() {
-        const res = await api.get("/plates")
-        setPlates(res.data)
-    }
-
-    async function savePlate() {
+    function saveEntity() {
         const payload = getRandomPlate()
-        await api.post("/plates", payload)
-        // getPlates()
+        dispatch(savePlate(payload))
     }
 
-    async function deletePlate() {
+    function getEntity() {
+        dispatch(getPlates())
+    }
+
+    function deleteEntity() {
         if (plates.length == 0) {
-            await getPlates()
+            console.error("no plates found")
+            return;
         }
 
-        if (plates.length > 0) {
-            const latestId = plates.pop()!.id
-            await api.delete(`/plates/${latestId}`).finally(() => {
-                alert("deleting")
-            })
-            getPlates()
+        const latestId = plates[plates.length - 1].id
+        if (latestId !== undefined) {
+            dispatch(deletePlate(latestId));
         }
     }
 
     return (
         <div>
-            <WarningBar message={errorMessage} />
+            <ToastContainer/>
             <div>
                 <a target="_blank">
                     <img src={viteLogo} className="logo" alt="Vite logo"/>
@@ -89,13 +88,13 @@ function App() {
             <h2>Internet is {getInternetString()}</h2>
 
             <div className="card">
-                <button onClick={() => getPlates()}>
+                <button onClick={() => getEntity()}>
                     GET
                 </button>
-                <button onClick={() => savePlate()}>
+                <button onClick={() => saveEntity()}>
                     POST
                 </button>
-                <button onClick={() => deletePlate()}>
+                <button onClick={() => deleteEntity()}>
                     DELETE
                 </button>
             </div>

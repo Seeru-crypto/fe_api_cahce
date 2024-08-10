@@ -4,7 +4,7 @@ export function getRandomPlate():IPlate {
     const letters = getString();
     const plateNumbers = generateRandomNumberString();
 
-    return {letters, plateNumbers}
+    return {letters, plateNumbers, createdAt: new Date()}
 }
 
 function getString(): string {
