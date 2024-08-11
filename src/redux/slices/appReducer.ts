@@ -1,41 +1,41 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-
-export type PlannerPageTypes =
-    | 'ProductLanding'
-    | 'ProductDetail'
-    | 'StationLanding'
-    | 'StationDetail'
-    | 'Setting'
-    | undefined
-    | 'OrderLanding'
-    | 'OrderSettings';
-export type ManagerPageTypes = 'OrderLanding' | 'OrderSettings' | undefined;
-export type PageTypes = PlannerPageTypes | ManagerPageTypes;
+import {createAsyncThunk, createSlice, isRejected, PayloadAction} from '@reduxjs/toolkit';
+import api from "../../middleware/axiosConfig.ts";
+import {IApiHealth} from "../../models/IApiHealth.ts";
 
 interface AppState {
-    currentPage: PageTypes;
     headerLabel?: string;
+    isApiOnline: boolean
 }
 
 const initialState: AppState = {
-    currentPage: undefined,
     headerLabel: 'FANCY TITLE',
+    isApiOnline: true
 };
+
+export const getApiHealth = createAsyncThunk('getApiHealth', async () => {
+    return (await api.get<IApiHealth>("/health")).data
+});
 
 export const appReducer = createSlice({
     name: 'admin',
     initialState,
     reducers: {
-        setCurrentPage: (state, action: PayloadAction<PageTypes>) => {
-            state.currentPage = action.payload;
-        },
         setHeaderLabel: (state, action: PayloadAction<string>) => {
             state.headerLabel = action.payload;
         },
     },
+    extraReducers(builder) {
+        builder
+            .addCase(getApiHealth.fulfilled, (state, action) => {
+                state.isApiOnline = action.payload.status.toUpperCase() === 'OK';
+            })
+            .addMatcher(isRejected(getApiHealth), (state) => {
+                state.isApiOnline = false
+            });
+    },
 });
 
-export const { setCurrentPage,
+export const {
     setHeaderLabel,
 } = appReducer.actions;
 

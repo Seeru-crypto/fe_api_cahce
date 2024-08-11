@@ -8,10 +8,11 @@ import useLocalCaching from "./reactHooks/useLocalCaching.ts";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useAppDispatch, useAppSelector} from "./redux/store.tsx";
+import {store, useAppDispatch, useAppSelector} from "./redux/store.tsx";
 import {deletePlate, getPlates, savePlate} from "./redux/slices/plateReducer.ts";
 import {errorOption, toastManager} from "./toastManager.ts";
 import {Id} from "react-toastify/dist/types";
+import useApiHealthCheck from "./reactHooks/useApiHealthCheck.ts";
 
 function App() {
     const [parent] = useAutoAnimate(/* optional config */)
@@ -19,8 +20,8 @@ function App() {
     const {plates} = useAppSelector(state => state.plates)
     const [toastId, setToastId] = useState<Id>()
     const isOnline = useGetNetworkStatus();
-
     useLocalCaching();
+    useApiHealthCheck(store)
 
     useEffect(() => {
         dispatch(getPlates())

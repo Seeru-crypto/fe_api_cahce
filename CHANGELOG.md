@@ -1,0 +1,34 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.2.0] - 30-12-2023
+
+### Added
+
+- Add health endpoint
+- Add update contact endpoint
+-
+
+
+## [0.1.5] - 30-12-2023
+
+### Added
+
+- Basic translations EST & ENG
+- CMS support for POST
+- 3 Mayor pages with their framework (Biography, Research, Services)
+
+
+
+## Example
+
+## [MAJOR.MINOR.PATCH] - DD-MM-YYYY
+
+### Added
+### Fixed
+### Changed
+### Removed

@@ -18,6 +18,10 @@ export const successOption: ToastOptions = {
     type:'success'
 }
 
+export const infoOption: ToastOptions = {
+    type:'info'
+}
+
 export const errorOption: ToastOptions = {
     type:'error',
     autoClose: false

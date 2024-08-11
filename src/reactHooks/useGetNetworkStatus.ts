@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-const useGetNetworkStatus = () => {
+const useGetNetworkStatus = (): boolean => {
     const [isOnline, setIsOnline] = useState(true)
     const onlineTimer = 3 // in seconds
 
