@@ -8,7 +8,6 @@ export function execute(config: InternalAxiosRequestConfig, store: TStore) {
     const URL = formatUrl(config.url) as TPossibleUrls;
     switch (URL) {
         case "health": {
-            console.log("health");
             break
         }
         case "plates": {

@@ -35,7 +35,6 @@ export const plateSlice = createSlice({
         builder
             .addCase(getPlates.fulfilled, (state, action) => {
                 state.isLoading = false;
-                // console.log("data ", action.payload.data)
                 state.plates = action.payload;
             })
             .addCase(savePlate.fulfilled, (state) => {
