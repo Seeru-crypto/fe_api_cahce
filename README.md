@@ -15,29 +15,22 @@ to the inherit limitations to the solution (read more in the technical notes bel
 2. Run test database and API ``npm run api``
 3. Run application ```npm run dev```
 
-or via script (on windows machines)
-``.\start_dev.bat``
+_or via script (on windows machines) `.\start_dev.bat`_
 
 
 ## JSON server API endpoints
 
+```
 GET  /plates - This retrieves a list of all resource entities of users.
 GET /plates/:id - This retrieves a specific user by its id.
 POST /plates - This creates a new user.
 PUT /plates/:id - This updates a user based on a specified id.
 DELETE /plates/:id - This deletes a user based on the specified id.
-
-TODO: 
-- add API health check
-- add changelog
-- update Readme
-- 
-
+```
 
 ## Technical notes
 
 - Detecting and caching the requests was rather straightforward
-- A problem arose when the requests were supposed to be re-sent. Since the original function call´s request would be timed-out 
-- Therefore, cancelling any additional logic
-- A rather bad solution was to create a axios middleware, which catches successful requests sent out and if they were POST or DELETE
-then a automatic GET request would be sent out. fine in smaller projects, but not viable in larger.
+- A problem arose when the requests were supposed to be re-sent. Since the original function call´s request would be timed-out, therefore cancelling any additional logic
+- A rather bad solution was created, using axios middleware, which detects if successful requests were sent out and if they were POST or DELETE
+then additional side-effect logic was executed. This is fine in smaller projects, but not viable in middle sized or larger projects.
