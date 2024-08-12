@@ -21,11 +21,11 @@ _or via script (on windows machines) `.\start_dev.bat`_
 ## JSON server API endpoints
 
 ```
-GET  /plates - This retrieves a list of all resource entities of users.
-GET /plates/:id - This retrieves a specific user by its id.
-POST /plates - This creates a new user.
-PUT /plates/:id - This updates a user based on a specified id.
-DELETE /plates/:id - This deletes a user based on the specified id.
+GET  /plates
+GET /plates/:id
+POST /plates
+PUT /plates/:id
+DELETE /plates/:id
 ```
 
 ## Technical notes
