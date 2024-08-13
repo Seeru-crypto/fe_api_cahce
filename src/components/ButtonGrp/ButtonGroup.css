@@ -1,0 +1,7 @@
+.card {
+    margin-top: 4rem;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}

@@ -3,6 +3,11 @@ GET http://localhost:4000/plates
 
 <> 2024-08-04T155959.200.json
 
+### plates_2 sort by ceatedAt date
+GET http://localhost:4000/plates?_sort=-createdAt
+
+<> 2024-08-04T155959.200.json
+
 
 ### health
 http://localhost:4000/health

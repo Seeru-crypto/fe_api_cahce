@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
 import {IPlate} from "../../models/IPlate.ts";
 import api from "../../middleware/axiosConfig.ts";
-import {successOption, toastManager, warningOption} from "../../toastManager.ts";
+import {successOption, toastManager, warningOption} from "../../utils/toastManager.ts";
 
 interface IPlateReducer {
     isLoading: boolean;
@@ -14,7 +14,8 @@ const initialState: IPlateReducer = {
 };
 
 export const getPlates = createAsyncThunk('getPlates', async () => {
-    return (await api.get<IPlate[]>("/plates")).data
+    let url = "/plates?_sort=-createdAt";
+    return (await api.get<IPlate[]>(url)).data
 });
 
 export const savePlate = createAsyncThunk('savePlate', async (payload: IPlate, thunkApi) => {

@@ -23,7 +23,7 @@ function retryRequests() {
                 localStorage.setItem('offlineRequests', JSON.stringify(remainingRequests));
             }
             else {
-                console.log('request is null')
+                console.error('request is null')
             }
         } catch (error) {
             console.error('Retry failed:', error);

@@ -12,7 +12,6 @@ const api = axios.create({
     timeout: TIMEOUT
 });
 
-
 export const injectStore = (_store: TStore) => {
     store = _store
 }

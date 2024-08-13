@@ -22,7 +22,9 @@ export function execute(config: InternalAxiosRequestConfig, store: TStore) {
 function formatUrl(original: string | undefined): string {
     if (original === undefined) return ''
     const res = original.split('/')
-    return res[1]
+    const rightPart = res[1]
+
+    return rightPart.split('?')[0]
 }
 
 function casePlates(config: InternalAxiosRequestConfig, store: TStore) {
